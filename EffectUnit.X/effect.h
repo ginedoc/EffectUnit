@@ -62,13 +62,15 @@
  */
 // TODO Insert declarations or function prototypes (right here) to leverage 
 // live documentation
+  void setting_sound_input(void);
 
 #ifdef	__cplusplus
-extern "C" {
+extern "C"
+{
 #endif /* __cplusplus */
 
-    // TODO If C++ is being used, regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
+  // TODO If C++ is being used, regular C code needs function names to have C 
+  // linkage so the functions can be used by the c code. 
 
 #ifdef	__cplusplus
 }
