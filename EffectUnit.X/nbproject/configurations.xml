@@ -9,6 +9,7 @@
       <itemPath>debug.h</itemPath>
       <itemPath>setting.h</itemPath>
       <itemPath>effect.h</itemPath>
+      <itemPath>led.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -22,6 +23,7 @@
       <itemPath>debug.c</itemPath>
       <itemPath>effect.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>led.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -37,7 +39,7 @@
         <targetDevice>PIC18F4520</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>Simulator</platformTool>
+        <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC8</languageToolchain>
         <languageToolchainVersion>1.44</languageToolchainVersion>
         <platform>2</platform>

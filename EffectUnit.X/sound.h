@@ -13,7 +13,7 @@
 
 void setting_sound_input(void);
 void ccp2_init(void);
-void timer3_init(void);
+void timer3_init(void); 
 
 #endif	/* SOUND_H */
 

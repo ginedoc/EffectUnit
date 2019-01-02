@@ -23,7 +23,8 @@ unsigned short buffer[2][128];
 unsigned short effect_buffer[3][128];
 
 void call_effect();
-void distortion_effect(int);
+void distortion_soft_effect(int);
+void distortion_hard_effect(int, float);
 void play_sample();
 
 #endif	/* EFFECT_H */

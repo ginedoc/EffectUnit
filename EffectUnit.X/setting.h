@@ -14,6 +14,7 @@
 #include "sound.h"
 #include "speaker.h"
 #include "effect.h"
+#include "led.h"
 
 #endif
 

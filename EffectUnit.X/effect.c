@@ -11,19 +11,21 @@
 void call_effect(){
   //128
   
-  distortion_effect(20);
+  //distortion_soft_effect(20);
    
   effect_ptr++;
   return;
 }
-void distortion_effect(int dis){
+void distortion_soft_effect(int dis){
   if(buffer[effect_index][effect_ptr] > 128-dis) buffer[effect_index][effect_ptr] = 128-dis;
   else if(buffer[effect_index][effect_ptr] < dis) buffer[effect_index][effect_ptr] = dis;
 }
 
-void reverb_effect(int rev){
-
+void distortion_hard_effect(int dis, float portion){
+  if(buffer[effect_index][effect_ptr] > 128-dis) buffer[effect_index][effect_ptr] *= portion;
+  else if(buffer[effect_index][effect_ptr] < dis) buffer[effect_index][effect_ptr] *= portion;
 }
+
 
 void play_sample(){
   set_Duty(buffer[audio_index][buffer_ptr]);
