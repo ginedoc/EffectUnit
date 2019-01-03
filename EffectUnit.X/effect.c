@@ -11,7 +11,10 @@
 void call_effect(){
   //128
   
-  //distortion_soft_effect(20);
+  if(Mode[0]>0)
+    distortion_soft_effect(Mode[0]*10);
+  if(Mode[1]>0)
+    distortion_hard_effect(Mode[0]*10, Mode[1]/10);
    
   effect_ptr++;
   return;

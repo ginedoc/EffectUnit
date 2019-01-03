@@ -10,8 +10,9 @@
 
 #include <xc.h>
 #include <pic18f4520.h>
+#include "effect.h"
 
-int Mode[4];
+
 
 void init_LED();
 void set_LED(int, int);

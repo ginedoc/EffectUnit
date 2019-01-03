@@ -21,6 +21,7 @@ char effect_index = 1;
 char audio_index = 2;
 unsigned short buffer[2][128];
 unsigned short effect_buffer[3][128];
+int Mode[4];
 
 void call_effect();
 void distortion_soft_effect(int);

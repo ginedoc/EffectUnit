@@ -30,17 +30,15 @@ int cnt = 0;
 void interrupt high_priority HiISR(void){
     if(PIR1bits.ADIF){
         
-        if(ANASrc<0){
-            //Mode[ANASrc+4] = (int) ADRES/30;
+        if(ANASrc==15625 || ANASrc==31250 || ANASrc==46875 || ANASrc==65000){
+            Mode[ANASrc/15625-1] = (int) ADRES/100;
 //            if(ANASrc==-4)
-                set_LED(ANASrc+4, (int) ADRES/100);
-            NOP();
+                set_LED(ANASrc/15625-1, (int) ADRES/100);
           }
         
         
         if(buffer_ptr<128){
             buffer[buffer_index][buffer_ptr] = ADRES/8;
-//            buffer[audio_index][buffer_ptr] = ADRES/8;
             play_sample();
 
             buffer_ptr++;
@@ -65,24 +63,24 @@ void interrupt high_priority HiISR(void){
         ADCON0bits.GO = 0;
         PIR1bits.ADIF = 0;
         ANASrc++;
+        
+        //if(ANASrc==65001) ANASrc=0;
       }
     
     // start convert
     if(PIR2bits.CCP2IF){
-        if(ANASrc>6500) ANASrc = -4;
  
-        if(ANASrc==-4)   ADCON0bits.CHS = 0;
-        else if(ANASrc==-3) ADCON0bits.CHS = 1;
-        else if(ANASrc==-2) ADCON0bits.CHS = 5;
-        else if(ANASrc==-1) ADCON0bits.CHS = 6;
-        else if(ANASrc==0) ADCON0bits.CHS = 7;
+        if(ANASrc==15624)   ADCON0bits.CHS = 0;
+        else if(ANASrc==31249) ADCON0bits.CHS = 1;
+        else if(ANASrc==46874) ADCON0bits.CHS = 5;
+        else if(ANASrc==64999) ADCON0bits.CHS = 6;
+        else ADCON0bits.CHS = 7;
  
         T3CONbits.TMR3ON=0;
         ADCON0bits.GO=1;
         PIR2bits.CCP2IF=0;
       }
 }
-
 
 void main(void) {
     // initial
