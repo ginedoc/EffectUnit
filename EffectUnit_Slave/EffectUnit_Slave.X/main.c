@@ -11,7 +11,7 @@
 #include "string.h"
 
 
-#pragma config OSC  = INTIO67,WDT=OFF,LVP=OFF
+#pragma config OSC  = HSPLL,WDT=OFF,LVP=OFF
 #pragma PBADEN = 1 //set AN0~AN12 as analog input
 
 #define samplerate 62500 // Hz
@@ -26,6 +26,7 @@ int ANAFlag;
 int ANASrc;
 extern int bitC_index;
 extern int Mode[4];
+int LED_Flag=0;
 //-------------------------------------------------------------------------//
 
 void ResistValue(int i){
@@ -80,7 +81,18 @@ void interrupt high_priority HiISR(void){
         
             ResistValue(ANASrc);
           }      
-        
+
+/*        
+        if(LED_Flag<100){ 
+            LED_Flag++;
+          }
+        else if(LED_Flag==100) {
+            //short cSample = buffer[buffer_index][buffer_ptr]/6.5-10;
+            int volLev = buffer[buffer_index][buffer_ptr]/11;
+            set_10(0);
+            LED_Flag=0;
+          }
+*/        
         TMR3 = 0;
         T3CONbits.TMR3ON=1;
         
@@ -114,6 +126,7 @@ void main(void) {
     
     set_LED(-1,0);
     
+
     while(1){
         if(effect_ptr<bufferSize)
         {
@@ -139,10 +152,20 @@ void main(void) {
             }
             else if(Mode[3]>0){
                 char freq = Mode[3];
-                currentSample = square_wave[freq][buffer_ptr]*42*(Mode[0]/10)+triangle_wave[freq][buffer_ptr]*42*(Mode[1]/10)+sine_wave[freq][effect_ptr]*(Mode[2]/42);
+                currentSample = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*4.5;
               }
             buffer[effect_index][effect_ptr++] = currentSample;
         }
+        if(LED_Flag<50){ 
+
+            LED_Flag++;
+          }
+        else if(LED_Flag==50) {
+            //short cSample = buffer[buffer_index][buffer_ptr]/6.5-10;
+            int volLev = buffer[buffer_index][buffer_ptr]/11;
+            set_10(volLev);
+            LED_Flag=0;
+          }
       }
 
     return;

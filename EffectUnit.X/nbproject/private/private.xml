@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/main.c</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/led.c</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/setting.h</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/sound.c</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/effect.c</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/led.h</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/speaker.c</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/speaker.h</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/sound.h</file>
-            <file>file:/home/popo/school/7.2018_ncku_fall/microcontroller/EffectUnit/EffectUnit.X/effect.h</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

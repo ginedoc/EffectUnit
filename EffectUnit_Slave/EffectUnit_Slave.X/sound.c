@@ -13,6 +13,7 @@ void setting_sound_input(void){
     TRISEbits.RE2 = 1;
     ADCON0bits.ADON = 1;
     
+    
     ADCON1bits.VCFG = 0; //set refer voltage 
     ADCON2bits.ADCS = 1; // 001 // AD Conversion Clock
     //ADCON2bits.ACQT = 2;   //Acquisition Time // 4 Tad 

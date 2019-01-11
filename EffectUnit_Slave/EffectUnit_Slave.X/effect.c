@@ -58,8 +58,7 @@ void play_sample(){
         }
         else if(Mode[3]>0){
             char freq = Mode[3];
-            //currentSample = square_wave[freq][buffer_ptr]*42*(Mode[0]/10)+triangle_wave[freq][buffer_ptr]*42*(Mode[1]/10)+sine_wave[freq][effect_ptr]*(Mode[2]/42);
-            currentSample = square_wave[freq][buffer_ptr]*128;
+                currentSample = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*4.5;
           }
         buffer[effect_index][effect_ptr++] = currentSample;
     }
