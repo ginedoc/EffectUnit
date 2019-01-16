@@ -26,8 +26,8 @@ unsigned short buffer[3][128];
 int Mode[4];
 
 void call_effect();
-void distortion_soft_effect(int);
-void distortion_hard_effect(int, float);
+short distortion_soft_effect(short);
+short distortion_hard_effect(short);
 void play_sample();
 
 #endif	/* EFFECT_H */

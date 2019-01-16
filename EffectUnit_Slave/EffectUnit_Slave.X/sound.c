@@ -37,8 +37,9 @@ void ccp2_init(void){
     PIE2bits.CCP2IE = 1;
     //configure CCP2 comparator value
     //CCPR2=16;
-    CCPR2 = 8;  // 16us
+    //CCPR2 = 8;  // 16us
     //CCPR2 = 4;  //8us
+    CCPR2 = 20;  // 16us
  }
 
 void timer3_init(void){

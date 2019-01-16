@@ -13,6 +13,7 @@ void setting_sound_input(void){
     TRISEbits.RE2 = 1;
     ADCON0bits.ADON = 1;
     
+    
     ADCON1bits.VCFG = 0; //set refer voltage 
     ADCON2bits.ADCS = 1; // 001 // AD Conversion Clock
     //ADCON2bits.ACQT = 2;   //Acquisition Time // 4 Tad 
@@ -36,8 +37,9 @@ void ccp2_init(void){
     PIE2bits.CCP2IE = 1;
     //configure CCP2 comparator value
     //CCPR2=16;
-    CCPR2 = 8;  // 16us
+    //CCPR2 = 8;  // 16us
     //CCPR2 = 4;  //8us
+    CCPR2 = 320;  // 16us
  }
 
 void timer3_init(void){
@@ -46,6 +48,6 @@ void timer3_init(void){
     T3CONbits.T3CCP1 = 1;
     // prescaler
     T3CONbits.T3CKPS1 = 0;
-    T3CONbits.T3CKPS0 = 0;
+    T3CONbits.T3CKPS0 = 1;
     T3CONbits.TMR3ON = 1;
 }

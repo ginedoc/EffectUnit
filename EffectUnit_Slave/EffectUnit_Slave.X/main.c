@@ -16,6 +16,7 @@
 
 #define samplerate 62500 // Hz
 #define bufferSize 128
+#define PWMRange 320
 
 //---------------------------------------//
 extern unsigned short buffer[3][bufferSize];
@@ -27,6 +28,7 @@ int ANASrc;
 extern int bitC_index;
 extern int Mode[4];
 int LED_Flag=0;
+const short Mul = 16;
 //-------------------------------------------------------------------------//
 
 void ResistValue(int i){
@@ -55,7 +57,7 @@ void interrupt high_priority HiISR(void){
     if(PIR1bits.ADIF){
        
         if(buffer_ptr<bufferSize){
-            buffer[buffer_index][buffer_ptr] = ADRES/8;
+            buffer[buffer_index][buffer_ptr] = (short) ADRES/4+32;
             play_sample();
 
             buffer_ptr++;
@@ -75,24 +77,14 @@ void interrupt high_priority HiISR(void){
         ADCON0bits.GO = 0;
         
         ANAFlag++;
-        if(ANAFlag>1000){
+        if(ANAFlag>2000){
             ANASrc++;
             ANASrc %= 4;
         
             ResistValue(ANASrc);
           }      
 
-/*        
-        if(LED_Flag<100){ 
-            LED_Flag++;
-          }
-        else if(LED_Flag==100) {
-            //short cSample = buffer[buffer_index][buffer_ptr]/6.5-10;
-            int volLev = buffer[buffer_index][buffer_ptr]/11;
-            set_10(0);
-            LED_Flag=0;
-          }
-*/        
+        
         TMR3 = 0;
         T3CONbits.TMR3ON=1;
         
@@ -110,6 +102,7 @@ void interrupt high_priority HiISR(void){
 void main(void) {
     // initial
     ANASrc = 0;
+    ANAFlag = 0;
     for(int i = 0; i < bufferSize ; i++){
         buffer[0][i] = 0;
         buffer[1][i] = 0;
@@ -126,45 +119,42 @@ void main(void) {
     
     set_LED(-1,0);
     
-
     while(1){
         if(effect_ptr<bufferSize)
         {
             short currentSample = buffer[effect_index][effect_ptr];
             if(Mode[3]==0){
-                // soft_clipping
-                if(Mode[1]>0){
-                    if(currentSample>128-Mode[0]*5) currentSample = (128-Mode[0]*5)+Mode[0]/10*(currentSample+128-Mode[0]*5);
-                    else if(currentSample<Mode[0]*5) currentSample += (Mode[0]*5)+(Mode[0]/10)*(currentSample-Mode[0]*5);
-                  }  
-                // hard_clipping
-                else if(Mode[0]>0){
-                    if (currentSample>128-Mode[0]*5) currentSample = 128-Mode[0]*5;
-                    else if(currentSample<Mode[0]*5) currentSample = Mode[0]*5;
-                  }
-                // bitcrasher
+                if(Mode[0]>0 || Mode[1]>0){ 
+                    if(currentSample>PWMRange-Mode[0]*Mul) currentSample = (PWMRange-Mode[0]*Mul)+Mode[1]/10*(currentSample+PWMRange-Mode[0]*Mul);
+                    else if(currentSample<Mode[0]*Mul) currentSample = (Mode[0]*Mul)+(Mode[1]/10)*(currentSample-Mode[0]*Mul);                  
+                  }          
+                
+                buffer[effect_index][effect_ptr] = currentSample;
+                // bitcrusher
                 if(Mode[2]>0){
-                    bitC_index++;
-                    bitC_index %= Mode[2];
-
-                    if(bitC_index>0 && buffer_ptr>Mode[2]) currentSample = (currentSample+buffer[effect_index][effect_ptr-bitC_index])/2;
+                    currentSample = buffer[effect_index][effect_ptr-effect_ptr%(2*Mode[2])];
                   }
             }
             else if(Mode[3]>0){
                 char freq = Mode[3];
                 currentSample = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*4.5;
               }
+             
             buffer[effect_index][effect_ptr++] = currentSample;
         }
-        if(LED_Flag<50){ 
-
-            LED_Flag++;
-          }
-        else if(LED_Flag==50) {
-            //short cSample = buffer[buffer_index][buffer_ptr]/6.5-10;
-            int volLev = buffer[buffer_index][buffer_ptr]/11;
+        
+        int volLev = (buffer[buffer_index][buffer_ptr])/30;
+        if(Mode[0]>0 || Mode[1]>0 || Mode[2]>0 || Mode[3] >0){
             set_10(volLev);
-            LED_Flag=0;
+          }
+        else{
+            if(LED_Flag<100){ 
+                LED_Flag++;
+              }
+            else if(LED_Flag==100) {
+                set_10(volLev);
+                LED_Flag=0;
+            }
           }
       }
 

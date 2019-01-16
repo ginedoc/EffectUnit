@@ -29,8 +29,8 @@ void set_Period()
 {
    // PR2 = 127;  // 64us
    //PR2 = 63;  // 32us
-   PR2 = 31;  // 16us 
-   
+   //PR2 = 31;  // 16us 
+   PR2 = 159;  // 8us 
    //PR2 = 15;   //  8us
     //PR2 = 7;    // 4us
 }
