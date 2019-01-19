@@ -77,7 +77,7 @@ void interrupt high_priority HiISR(void){
         ADCON0bits.GO = 0;
         
         ANAFlag++;
-        if(ANAFlag>2000){
+        if(ANAFlag>2500){
             ANASrc++;
             ANASrc %= 4;
         
@@ -120,28 +120,26 @@ void main(void) {
     set_LED(-1,0);
     
     while(1){
-        if(effect_ptr<bufferSize)
-        {
-            short currentSample = buffer[effect_index][effect_ptr];
-            if(Mode[3]==0){
-                if(Mode[0]>0 || Mode[1]>0){ 
-                    if(currentSample>PWMRange-Mode[0]*Mul) currentSample = (PWMRange-Mode[0]*Mul)+Mode[1]/10*(currentSample+PWMRange-Mode[0]*Mul);
-                    else if(currentSample<Mode[0]*Mul) currentSample = (Mode[0]*Mul)+(Mode[1]/10)*(currentSample-Mode[0]*Mul);                  
-                  }          
-                
-                buffer[effect_index][effect_ptr] = currentSample;
-                // bitcrusher
-                if(Mode[2]>0){
-                    currentSample = buffer[effect_index][effect_ptr-effect_ptr%(2*Mode[2])];
-                  }
-            }
-            else if(Mode[3]>0){
-                char freq = Mode[3];
-                currentSample = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*4.5;
-              }
-             
-            buffer[effect_index][effect_ptr++] = currentSample;
-        }
+            if(effect_ptr<bufferSize)
+           {
+               if(Mode[3]==0){
+                   if(Mode[0]>0 || Mode[1]>0){ 
+                       if(buffer[effect_index][effect_ptr]>PWMRange-Mode[0]*Mul) buffer[effect_index][effect_ptr] = (PWMRange-Mode[0]*Mul)+Mode[1]/10*(buffer[effect_index][effect_ptr]+PWMRange-Mode[0]*Mul);
+                       else if(buffer[effect_index][effect_ptr]<Mode[0]*Mul) buffer[effect_index][effect_ptr] = (Mode[0]*Mul)+(Mode[1]/10)*(buffer[effect_index][effect_ptr]-Mode[0]*Mul);                  
+                     }          
+
+                   // bitcrusher
+                   if(Mode[2]>0){
+                       buffer[effect_index][effect_ptr] = buffer[effect_index][effect_ptr-effect_ptr%(3*Mode[2])];
+                     }
+               }
+               else if(Mode[3]>0){
+                   char freq = Mode[3];
+                   buffer[effect_index][effect_ptr] = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*11;
+                 }
+
+               effect_ptr++;
+           }  
         
         int volLev = (buffer[buffer_index][buffer_ptr])/30;
         if(Mode[0]>0 || Mode[1]>0 || Mode[2]>0 || Mode[3] >0){

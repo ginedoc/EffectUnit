@@ -39,7 +39,7 @@ void ccp2_init(void){
     //CCPR2=16;
     //CCPR2 = 8;  // 16us
     //CCPR2 = 4;  //8us
-    CCPR2 = 20;  // 16us
+    CCPR2 = 320;  // 16us
  }
 
 void timer3_init(void){
@@ -48,6 +48,6 @@ void timer3_init(void){
     T3CONbits.T3CCP1 = 1;
     // prescaler
     T3CONbits.T3CKPS1 = 0;
-    T3CONbits.T3CKPS0 = 0;
+    T3CONbits.T3CKPS0 = 1;
     T3CONbits.TMR3ON = 1;
 }

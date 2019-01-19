@@ -135,7 +135,7 @@ void main(void) {
                }
                else if(Mode[3]>0){
                    char freq = Mode[3];
-                   buffer[effect_index][effect_ptr] = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*4.5;
+                   buffer[effect_index][effect_ptr] = (square_wave[freq][buffer_ptr]*Mode[0]+triangle_wave[freq][buffer_ptr]*Mode[1]+sine_wave[freq][effect_ptr]*Mode[2])*11;
                  }
 
                effect_ptr++;
